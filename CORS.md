@@ -1,1 +1,1 @@
-- 环境准备： `npm install anxios --save-dev`    
+- 环境准备： `npm install axios --save-dev`    
