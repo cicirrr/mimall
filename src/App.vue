@@ -16,7 +16,10 @@ export default {
   mounted() {
     // 本地加载mock json文件
     // eslint-disable-next-line no-return-assign
-    this.axios.get('/mock/user/login.json').then(result => this.res = result);
+    // this.axios.get('/mock/user/login.json').then(result => this.res = result);
+    // 通过easy-mock 平台实现mock数据
+    // eslint-disable-next-line no-return-assign
+    this.axios.get('/mock').then(res => this.res = res);
   },
 };
 </script>
