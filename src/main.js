@@ -10,8 +10,15 @@ import store from './store';
 // eslint-disable-next-line import/extensions
 import './plugins/element.js';
 
+// mock 开关
+const mock = true;
+if (mock) {
+  // eslint-disable-next-line global-require
+  require('./mock/api');
+}
+
 // 设置 axios基础值。根据前端跨域方式进行调整
-axios.defaults.baseURL = 'https://www.easy-mock.com/mock/5e0aead627b4df12606892ec/example';
+axios.defaults.baseURL = '/api';
 axios.defaults.timeout = 8000;
 // 根据不同环境变量，取不同的地址
 // axios.defaults.baseURL = env.baseURL;

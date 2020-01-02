@@ -19,7 +19,8 @@ export default {
     // this.axios.get('/mock/user/login.json').then(result => this.res = result);
     // 通过easy-mock 平台实现mock数据
     // eslint-disable-next-line no-return-assign
-    this.axios.get('/mock').then(res => this.res = res);
+    this.axios.get('/user/login').then(res => this.res = res);
+    console.log(this.res.status);
   },
 };
 </script>
