@@ -11,7 +11,7 @@ import store from './store';
 import './plugins/element.js';
 
 // 设置 axios基础值。根据前端跨域方式进行调整
-axios.defaults.baseURL = '/api';
+// axios.defaults.baseURL = '/api';
 axios.defaults.timeout = 8000;
 // 根据不同环境变量，取不同的地址
 // axios.defaults.baseURL = env.baseURL;
@@ -29,7 +29,7 @@ axios.interceptors.response.use((response) => {
 });
 
 
-Vue.use(axios, VueAxios);
+Vue.use(VueAxios, axios);
 Vue.config.productionTip = false;
 
 new Vue({

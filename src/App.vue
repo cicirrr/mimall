@@ -8,6 +8,16 @@
 
 export default {
   name: 'app',
+  data() {
+    return {
+      res: {},
+    };
+  },
+  mounted() {
+    // 本地加载mock json文件
+    // eslint-disable-next-line no-return-assign
+    this.axios.get('/mock/user/login.json').then(result => this.res = result);
+  },
 };
 </script>
 
