@@ -3,15 +3,18 @@ import Vue from 'vue';
 import axios from 'axios';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import VueAxios from 'vue-axios';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import App from './App.vue';
 import router from './router';
 import store from './store';
 // import env from '../env';
 // eslint-disable-next-line import/extensions
 import './plugins/element.js';
+import './assets/scss/reset.scss';
+// eslint-disable-next-line import/no-extraneous-dependencies
 
 // mock 开关
-const mock = true;
+const mock = false;
 if (mock) {
   // eslint-disable-next-line global-require
   require('./mock/api');
@@ -28,7 +31,8 @@ axios.interceptors.response.use((response) => {
   const res = response.data;
   if (res.status === 0) {
     return res.data;
-  } if (res.status === 10) {
+  }
+  if (res.status === 10) {
     window.location.href = '/#/login';
   } else {
     alert(res.msg);
