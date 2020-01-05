@@ -61,7 +61,31 @@
     <div class="banner">
       <a href="/#/product/30"><img src="/imgs/banner-1.png" alt=""></a>
     </div>
-    <div class="product-box"></div>
+  </div>
+  <div class="product-box">
+    <div class="container">
+      <div class="product-title">
+        <h3>手机</h3>
+      </div>
+      <div class="product-wrap">
+        <div class="product-left">
+          <a href="/#/product/30" target="_blank">
+            <img src="/imgs/mix-alpha.jpg" alt="">
+          </a>
+        </div>
+        <div class="product-right">
+          <div class="pro-list" v-for="(pro, i) in productList" :key="i">
+            <div class="pro-item" v-for="(item, j) in pro" :key="j">
+              <span :class="j % 2 ===0 ? 'pro-new' : 'kill-pro'">新品</span>
+              <img :src="item.mainImage" alt="">
+              <h3 class="pro-name">{{item.name}}</h3>
+              <p class="pro-info">{{item.subtitle}}</p>
+              <p class="pro-price">{{item.price}}元</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <service-bar></service-bar>
 </div>
@@ -137,7 +161,25 @@ export default {
           prevEl: '.swiper-button-prev',
         },
       },
+      productList: [],
     };
+  },
+  methods: {
+    init() {
+      this.axios.get('/products', {
+        params: {
+          categoryId: 100012,
+          pageSize: 14,
+        },
+      }).then((res) => {
+        // eslint-disable-next-line no-param-reassign
+        res.list = res.list.slice(6, 14);
+        this.productList = [res.list.slice(0, 4), res.list.slice(4, 8)];
+      });
+    },
+  },
+  mounted() {
+    this.init();
   },
 };
 </script>
@@ -243,9 +285,95 @@ export default {
       }
     }
     .banner{
+      margin-bottom: 50px;
       img{
         height: 130px;
         width: 100%;
+        display: block;
+      }
+    }
+    .product-box{
+      background-color: $colorJ;
+      padding-bottom: 50px;
+      .container{
+        .product-title{
+          font-size: $fontF;
+          color: $colorB;
+          line-height: 70px;
+        }
+        .product-wrap{
+          display: flex;
+          .product-left{
+            margin-right: 16px;
+            img{
+              width: 214px;
+              height: 619px;
+            }
+          }
+          .product-right{
+            height: 619px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            .pro-list{
+              display: flex;
+              justify-content: space-between;
+              .pro-item{
+                width: 24%;
+                display: inline-block;
+                text-align: center;
+                background-color: #Fff;
+                height: 300px;
+                transition: all .3s ease-in;
+                font-size: $fontJ;
+                line-height: 1em;
+                span{
+                  display: inline-block;
+                  width: 67px;
+                  height: 24px;
+                  color: #fff;
+                  line-height: 24px;
+                  margin-bottom: 15px;
+                  &.pro-new{
+                    background-color: #7ECF68;
+                  }
+                  &.kill-pro{
+                    background-color: #E82626;
+                  }
+                }
+                img{
+                  width: 80%;
+                  height: 162px;
+                }
+                .pro-name{
+                  color: $colorB;
+                }
+                .pro-info{
+                  font-size: $fontK;
+                  color: $colorD;
+                  margin-top: 8px;
+                  margin-bottom: 13px;
+                }
+                .pro-price{
+                  color: #F20A0A;
+                  font-weight: bold;
+                  &:after{
+                    cursor: pointer;
+                    content: '';
+                    display: inline-block;
+                    vertical-align: middle;
+                    margin-left: 5px;
+                    @include bgImg(20px, 20px,'/imgs/icon-cart-hover.png')
+                  }
+                }
+                &:hover{
+                  margin-top: -3px;
+                  box-shadow: 0 15px 30px rgba(0,0,0,.1);
+                }
+              }
+            }
+          }
+        }
       }
     }
   }
