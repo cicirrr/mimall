@@ -80,7 +80,7 @@
               <img :src="item.mainImage" alt="">
               <h3 class="pro-name">{{item.name}}</h3>
               <p class="pro-info">{{item.subtitle}}</p>
-              <p class="pro-price">{{item.price}}元</p>
+              <p class="pro-price" @click="addCart()">{{item.price}}元</p>
             </div>
           </div>
         </div>
@@ -88,11 +88,23 @@
     </div>
   </div>
   <service-bar></service-bar>
+  <modal :title="'提交'"
+         :btn-type="'3'"
+         :sure-text="'查看购物车'"
+         :show-modal="showModal"
+         @cancel="showModal = false"
+         @submit="gotoCart"
+  >
+    <template v-slot:body>
+      <p>商品已添加至购物车</p>
+    </template>
+  </modal>
 </div>
 </template>
 
 <script>
 import ServiceBar from '../components/ServiceBar.vue';
+import Modal from '../components/Modal.vue';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import 'swiper/dist/css/swiper.css';
 // eslint-disable-next-line import/no-extraneous-dependencies,import/order
@@ -104,9 +116,11 @@ export default {
     ServiceBar,
     swiper,
     swiperSlide,
+    Modal,
   },
   data() {
     return {
+      showModal: false,
       sliderList: [
         {
           id: '42',
@@ -176,6 +190,13 @@ export default {
         res.list = res.list.slice(6, 14);
         this.productList = [res.list.slice(0, 4), res.list.slice(4, 8)];
       });
+    },
+    addCart() {
+      this.showModal = true;
+      // this.axios.post({}).then().catch()
+    },
+    gotoCart() {
+      this.$router.push('/cart');
     },
   },
   mounted() {

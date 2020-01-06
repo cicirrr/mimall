@@ -13,3 +13,22 @@
   background: url($url) no-repeat center;
   background-size: $size;
 }
+// 定位复用
+@mixin position($pos:absolute,$top:0,$left:0,$w:100%,$h:100%) {
+  position: $pos;
+  top: $top;
+  left: $left;
+  width: $w;
+  height: $h;
+}
+
+// 定位背景图
+@mixin positionBgImg($top:0,$right:0,$w:0,$h:0,$url:'',$size:contain) {
+  position: absolute;
+  top: $top;
+  right: $right;
+  width: $w;
+  height: $h;
+  background: url($url) no-repeat center;
+  background-size: $size;
+}

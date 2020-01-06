@@ -1,0 +1,31 @@
+//348 50 16px 登录 xl
+//332 42-14px 注册 l
+//300 54 16px 商品详情 m
+//202 50 18px 购物车  确认订单 s 默认
+//160 40 16px 确认订单 xs
+.btn{
+  display: inline-block;
+  width: 202px;
+  line-height: 50px;
+  font-size: $fontH;
+  color: $colorG;
+  background-color: $colorA;
+  text-align: center;
+  &.btn-xs{
+    width: 160px;
+    line-height: 40px;
+    font-size: $fontI;
+  }
+  &.btn-rest{
+    color: $colorG;
+    background-color: #B0B0B0;
+  }
+}
+.btn-group{
+  .btn{
+    margin-left: 14px;
+  }
+  &:last-child{
+    margin-left: 0;
+  }
+}

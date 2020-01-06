@@ -17,5 +17,8 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+  @import './assets/scss/config';
+  @import "./assets/scss/mixin";
+  @import "./assets/scss/button";
 </style>
