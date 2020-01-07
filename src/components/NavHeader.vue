@@ -9,10 +9,10 @@
             <a href="javascript:;">协议规则</a>
           </div>
           <div class="nav-top-info">
-            <a href="javascript:;" class="top-user" @click="login" v-if="username">登录</a>
-            <a href="javascript:;" class="top-user" v-if="!username">我的订单</a>
+            <a href="javascript:;" class="top-user" @click="login" v-if="!username">登录</a>
+            <a href="javascript:;" class="top-user" v-if="username">Hi~{{username}}</a>
             <a href="javascript:;" class="top-cart" @click="gotoCart">
-              <span class="icon-cart"></span>购物车(0)
+              <span class="icon-cart"></span>购物车({{cartCount}})
             </a>
           </div>
         </div>
@@ -105,13 +105,23 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
   name: 'NavHeader',
   data() {
     return {
-      username: 'lily',
       phoneList: [],
     };
+  },
+  computed: {
+    // username() {
+    //   return this.$store.state.username;
+    // },
+    // cartCount() {
+    //   return this.$store.state.cartCount;
+    // }, 使用解构赋值
+    ...mapState(['username', 'cartCount']),
   },
   methods: {
     login() {

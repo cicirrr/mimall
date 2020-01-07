@@ -32,3 +32,12 @@
   background: url($url) no-repeat center;
   background-size: $size;
 }
+// right定位复用
+@mixin positionR($pos:absolute,$top:0,$right:0,$w:100%,$h:100%) {
+  position: $pos;
+  top: $top;
+  right: $right;
+  width: $w;
+  height: $h;
+}
+

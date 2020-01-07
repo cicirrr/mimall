@@ -11,7 +11,7 @@
                 <ul v-for="(sub, i) in menuList" :key="i">
                   <li v-for="(sub, j) in sub" :key="j">
                     <a :href="sub? '/#/product/' + sub.id : '' " target="_blank">
-                      <img :src="sub? sub.img : '/imgs/item-box-1.png'">
+                      <img v-lazy="sub? sub.img : '/imgs/item-box-1.png'">
                       {{sub? sub.name : '小米9'}}
                     </a>
                   </li>
@@ -55,7 +55,7 @@
     </div>
     <div class="ads-box">
       <a :href="'/#/product/' + ads.id " v-for="(ads, index) in adsList" :key="index">
-        <img :src="ads.img">
+        <img v-lazy="ads.img">
       </a>
     </div>
     <div class="banner">
@@ -70,14 +70,14 @@
       <div class="product-wrap">
         <div class="product-left">
           <a href="/#/product/30" target="_blank">
-            <img src="/imgs/mix-alpha.jpg" alt="">
+            <img v-lazy="'/imgs/mix-alpha.jpg'" alt="">
           </a>
         </div>
         <div class="product-right">
           <div class="pro-list" v-for="(pro, i) in productList" :key="i">
             <div class="pro-item" v-for="(item, j) in pro" :key="j">
               <span :class="j % 2 ===0 ? 'pro-new' : 'kill-pro'">新品</span>
-              <img :src="item.mainImage" alt="">
+              <img v-lazy="item.mainImage" alt="">
               <h3 class="pro-name">{{item.name}}</h3>
               <p class="pro-info">{{item.subtitle}}</p>
               <p class="pro-price" @click="addCart()">{{item.price}}元</p>
@@ -89,7 +89,7 @@
   </div>
   <service-bar></service-bar>
   <modal :title="'提交'"
-         :btn-type="'3'"
+         :btn-type="'1'"
          :sure-text="'查看购物车'"
          :show-modal="showModal"
          @cancel="showModal = false"

@@ -4,6 +4,9 @@ import axios from 'axios';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import VueAxios from 'vue-axios';
 // eslint-disable-next-line import/no-extraneous-dependencies
+import VueLazyload from 'vue-lazyload';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import VueCookie from 'vue-cookie';
 import App from './App.vue';
 import router from './router';
 import store from './store';
@@ -29,18 +32,27 @@ axios.defaults.timeout = 8000;
 // eslint-disable-next-line consistent-return
 axios.interceptors.response.use((response) => {
   const res = response.data;
+  // eslint-disable-next-line no-restricted-globals
+  const path = location.hash;
   if (res.status === 0) {
     return res.data;
   }
   if (res.status === 10) {
-    window.location.href = '/#/login';
+    if (path !== '/#/index') {
+      window.location.href = '/#/login';
+    }
   } else {
     alert(res.msg);
+    Promise.reject();
   }
 });
 
 
 Vue.use(VueAxios, axios);
+Vue.use(VueLazyload, {
+  loading: 'imgs/loading-svg/loading-bubbles.svg',
+});
+Vue.use(VueCookie);
 Vue.config.productionTip = false;
 
 new Vue({

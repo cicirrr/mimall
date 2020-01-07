@@ -11,10 +11,14 @@
   color: $colorG;
   background-color: $colorA;
   text-align: center;
+  cursor: pointer;
   &.btn-xs{
     width: 160px;
     line-height: 40px;
     font-size: $fontI;
+  }
+  &.btn-xl{
+    width: 348px;
   }
   &.btn-rest{
     color: $colorG;
