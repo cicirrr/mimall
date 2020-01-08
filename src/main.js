@@ -34,11 +34,12 @@ axios.interceptors.response.use((response) => {
   const res = response.data;
   // eslint-disable-next-line no-restricted-globals
   const path = location.hash;
+  console.log(path);
   if (res.status === 0) {
     return res.data;
   }
   if (res.status === 10) {
-    if (path !== '/#/index') {
+    if (path !== '#/index') {
       window.location.href = '/#/login';
     }
   } else {

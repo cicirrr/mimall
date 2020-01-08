@@ -5,26 +5,28 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+// import { mapActions } from 'vuex';
 
 export default {
   name: 'app',
   data() {
     return {
+      res: {},
     };
   },
   methods: {
     getUser() {
       // eslint-disable-next-line no-return-assign
       this.axios.get('/user').then((res) => {
-        // this.$store.dispatch('saveUsername', res.username);
-        this.saveUsername(res.username);
+        this.res = res;
+        this.$store.dispatch('saveUsername', res.username);
+        // this.saveUsername(res.username);
       });
     },
     getCartCount() {
       this.axios.get('/carts/products/sum').then(res => this.$store.dispatch('saveCartCount', res));
     },
-    ...mapActions(['saveUsername', 'saveCartCount']),
+    // ...mapActions(['saveUsername', 'saveCartCount']),
   },
   mounted() {
     this.getUser();
