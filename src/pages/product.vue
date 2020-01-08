@@ -39,12 +39,12 @@
             <h3>慢慢回味每一瞬间的精彩</h3>
             <p>后置960帧电影般超慢动作视频，将眨眼间的美妙展现得淋漓尽致！<br>
             更能AI 精准分析视频内容，15个场景智能匹配背景音效。</p>
-            <div class="video-bg" @click="showVideo = true"></div>
+            <div class="video-bg" @click="showVideo = 'sliderDown'"></div>
             <div class="video-box">
 <!--              遮罩层-->
-              <div class="video-layer" v-if="showVideo"></div>
-              <div class="video" :class="{slider: showVideo}">
-                <span class="icon-close" @click="showVideo = false"></span>
+              <div class="video-layer" v-if="showVideo === 'showDown'"></div>
+              <div class="video" :class="showVideo">
+                <span class="icon-close" @click="showVideo = 'sliderUp'"></span>
                 <video src="/imgs/product/video.mp4" controls loop></video>
               </div>
             </div>
@@ -70,7 +70,7 @@ export default {
   },
   data() {
     return {
-      showVideo: false,
+      showVideo: '',
       galleryData: [
         { id: 2, img: '/imgs/product/gallery-2.png' },
         { id: 3, img: '/imgs/product/gallery-3.png' },
@@ -85,6 +85,7 @@ export default {
         },
         autoplay: true,
         slidesPerView: 3,
+        // 注意参数
         spaceBetween: 30,
         freeMode: true,
         // spaceBetween: '20px',
@@ -179,6 +180,7 @@ export default {
             height: 540px;
             background: url("/imgs/product/gallery-1.png") no-repeat center;
             background-size: contain;
+            cursor: pointer;
           }
           .video-box{
             .video-layer{
@@ -195,11 +197,18 @@ export default {
               left: 50%;
               transform: translate(-50%,-50%);
               z-index: 15;
-              opacity: 0;
+              opacity: 1;
               transition: all .6s;
-              &.slider{
+              /*&.slider{*/
+              /*  top: 50%;*/
+              /*  opacity: 1;*/
+              /*}*/
+              &.silderUp{
+                animation: silderUp 1s linear;
+              }
+              &.sliderDown{
+                animation: sliderDown 1s linear;
                 top: 50%;
-                opacity: 1;
               }
               .icon-close{
                 @include bgImg(20px,20px,'/imgs/icon-close.png');
@@ -219,6 +228,27 @@ export default {
           }
         }
       }
+    }
+  }
+  /*定义动画*/
+  @keyframes sliderUp {
+    from {
+      top: 50%;
+      opacity: 1;
+    }
+    to {
+      top: -50%;
+      opacity: 0;
+    }
+  }
+  @keyframes sliderDown {
+    from {
+      top: -50%;
+      opacity: 0;
+    }
+    to {
+      top: 50%;
+      opacity: 1;
     }
   }
 </style>
