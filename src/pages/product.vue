@@ -39,12 +39,13 @@
             <h3>慢慢回味每一瞬间的精彩</h3>
             <p>后置960帧电影般超慢动作视频，将眨眼间的美妙展现得淋漓尽致！<br>
             更能AI 精准分析视频内容，15个场景智能匹配背景音效。</p>
-            <div class="video-bg"></div>
+            <div class="video-bg" @click="showVideo = true"></div>
             <div class="video-box">
 <!--              遮罩层-->
-              <div class="vedio-lay"></div>
-              <div class="video">
-                <video src=""></video>
+              <div class="video-layer" v-if="showVideo"></div>
+              <div class="video" :class="{slider: showVideo}">
+                <span class="icon-close" @click="showVideo = false"></span>
+                <video src="/imgs/product/video.mp4" controls loop></video>
               </div>
             </div>
           </div>
@@ -69,6 +70,7 @@ export default {
   },
   data() {
     return {
+      showVideo: false,
       galleryData: [
         { id: 2, img: '/imgs/product/gallery-2.png' },
         { id: 3, img: '/imgs/product/gallery-3.png' },
@@ -83,8 +85,8 @@ export default {
         },
         autoplay: true,
         slidesPerView: 3,
-        centeredSlides: true,
-        centeredSlidesBounds: true,
+        spaceBetween: 30,
+        freeMode: true,
         // spaceBetween: '20px',
       },
     };
@@ -148,10 +150,8 @@ export default {
       }
       .item-swiper{
         margin: 36px auto 52px;
-        .swiper-container{
-          img{
-            width: 94.3%;
-          }
+        img{
+          width: 100%;
         }
         p{
           text-align: center;
@@ -179,6 +179,43 @@ export default {
             height: 540px;
             background: url("/imgs/product/gallery-1.png") no-repeat center;
             background-size: contain;
+          }
+          .video-box{
+            .video-layer{
+              @include position(fixed);
+              background-color: $colorB;
+              opacity: 0.5;
+              z-index: 15;
+            }
+            .video{
+              width: 1000px;
+              height: 536px;
+              position: fixed;
+              top: -50%;
+              left: 50%;
+              transform: translate(-50%,-50%);
+              z-index: 15;
+              opacity: 0;
+              transition: all .6s;
+              &.slider{
+                top: 50%;
+                opacity: 1;
+              }
+              .icon-close{
+                @include bgImg(20px,20px,'/imgs/icon-close.png');
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                cursor: pointer;
+                z-index: 20;
+              }
+              video{
+                height: 100%;
+                width: 100%;
+                object-fit: cover;
+                outline: none;
+              }
+            }
           }
         }
       }
