@@ -2,7 +2,7 @@
   <div class="nav-bar" :class="{fixed: isFixed}">
     <div class="container">
       <div class="nav-left">
-        <h3>小米8 透明探索版</h3>
+        <h3>{{title}}</h3>
         <a href="#">小米8</a>
         <a href="#">小米8 SE</a>
       </div>
@@ -19,6 +19,9 @@
 <script>
 export default {
   name: 'ProductParam',
+  props: {
+    title: String,
+  },
   data() {
     return {
       isFixed: false,

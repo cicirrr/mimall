@@ -1,14 +1,14 @@
 <template>
     <div class="product-page">
-      <product-param>
+      <product-param :title="productInfo.name">
         <template v-slot:body>
-          <span class="btn btn-xxs">立即购买</span>
+          <span class="btn btn-xxs" @click="buy">立即购买</span>
         </template>
       </product-param>
       <div class="content">
         <div class="item-bg">
-          <h1>小米<b>8</b></h1>
-          <h2>8周年旗舰版</h2>
+          <h1>{{productInfo.name}}</h1>
+          <h2>{{productInfo.subtitle}}</h2>
           <p>
             <a href="#">全球首款双频 GP</a>
             <span>|</span>
@@ -18,7 +18,7 @@
             <span>|</span>
             <a href="#">红外人脸识别</a>
           </p>
-          <div class="price">￥2999<span>￥3100</span></div>
+          <div class="price">￥{{productInfo.price}}<span>￥3100</span></div>
         </div>
         <div class="item-bg1"></div>
         <div class="item-bg2"></div>
@@ -40,12 +40,12 @@
             <p>后置960帧电影般超慢动作视频，将眨眼间的美妙展现得淋漓尽致！<br>
             更能AI 精准分析视频内容，15个场景智能匹配背景音效。</p>
             <div class="video-bg" @click="showVideo = 'sliderDown'"></div>
-            <div class="video-box">
+            <div class="video-box" v-show="showVideo">
 <!--              遮罩层-->
               <div class="video-layer" v-if="showVideo === 'showDown'"></div>
               <div class="video" :class="showVideo">
-                <span class="icon-close" @click="showVideo = 'sliderUp'"></span>
-                <video src="/imgs/product/video.mp4" controls loop></video>
+                <span class="icon-close" @click="closeVideo"></span>
+                <video src="/imgs/product/video.mp4" controls loop autoplay></video>
               </div>
             </div>
           </div>
@@ -90,7 +90,30 @@ export default {
         freeMode: true,
         // spaceBetween: '20px',
       },
+      productInfo: {},
     };
+  },
+  mounted() {
+    this.getProductInfo();
+  },
+  methods: {
+    getProductInfo() {
+      // 获取路由参数
+      const { id } = this.$route.params;
+      // 采用字符串模板放入动态路由ID
+      // eslint-disable-next-line no-return-assign
+      this.axios.get(`/products/${id}`).then(res => this.productInfo = res);
+    },
+    closeVideo() {
+      // 视频实现上拉动画过渡以后，再撤掉样式名称
+      this.showVideo = 'sliderUp';
+      // eslint-disable-next-line no-return-assign
+      setTimeout(() => this.showVideo = '', 600);
+    },
+    buy() {
+      const { id } = this.productInfo;
+      this.$router.push(`/detail/${id}`);
+    },
   },
 };
 </script>

@@ -16,15 +16,16 @@ export default {
   },
   methods: {
     getUser() {
+      // 添加默认值 res = 空对象
       // eslint-disable-next-line no-return-assign
-      this.axios.get('/user').then((res) => {
-        this.res = res;
-        this.$store.dispatch('saveUsername', res.username);
+      this.axios.get('/user').then((res = {}) => {
+        const { username } = res;
+        this.$store.dispatch('saveUsername', username);
         // this.saveUsername(res.username);
       });
     },
     getCartCount() {
-      this.axios.get('/carts/products/sum').then(res => this.$store.dispatch('saveCartCount', res));
+      this.axios.get('/carts/products/sum').then((res = 0) => this.$store.dispatch('saveCartCount', res));
     },
     // ...mapActions(['saveUsername', 'saveCartCount']),
   },
