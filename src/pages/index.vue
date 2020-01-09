@@ -210,7 +210,7 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
   @import '../assets/scss/base';
   @import '../assets/scss/config';
   @import "../assets/scss/mixin";

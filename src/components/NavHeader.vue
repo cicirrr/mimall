@@ -156,10 +156,9 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 @import "../assets/scss/config";
 @import "../assets/scss/mixin";
-@import "../assets/scss/base";
 a{
   color: #b0b0b0;
   line-height: 39px;
@@ -198,29 +197,6 @@ a{
     .container{
       @include flex();
       position: relative;
-      .header-logo{
-        width: 55px;
-        height: 55px;
-        background-color: $colorA;
-        .logo{
-          display: inline-block;
-          width: 110px;
-          height: 55px;
-          &:before{
-            @include bgImg(55px,55px,"/imgs/mi-logo.png",55px);
-            content: ' ';
-            transition: margin .3s;
-          }
-          &:after{
-            content: ' ';
-            @include bgImg(55px,55px,"/imgs/mi-home.png",55px);
-          }
-        }
-        &:hover .logo:before{
-          margin-left: -55px;
-          transition: margin .3s;
-        }
-      }
       .header-menu{
         margin-left: 210px;
         width: 634px;

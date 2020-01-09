@@ -38,6 +38,7 @@ export default {
 
 <style lang="scss">
   @import './assets/scss/config';
-  @import "./assets/scss/mixin";
-  @import "./assets/scss/button";
+  @import './assets/scss/mixin';
+  @import './assets/scss/base';
+  @import './assets/scss/button';
 </style>

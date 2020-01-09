@@ -1,6 +1,10 @@
 <template>
     <div class="login">
-      <order-header></order-header>
+      <div clss="login-header">
+        <div class="container">
+          <a href="/#/index"><img src="/imgs/login-logo.png" alt="" class="header-logo"></a>
+        </div>
+      </div>
       <div class="banner">
         <div class="container">
           <div class="login-form">
@@ -46,7 +50,6 @@
 
 <script>
 // import { mapActions } from 'vuex';  不要忘记加花括号
-import OrderHeader from '../components/OrderHeader.vue';
 
 export default {
   name: 'login',
@@ -56,9 +59,6 @@ export default {
       password: '',
       res: {},
     };
-  },
-  components: {
-    OrderHeader,
   },
   methods: {
     login() {
@@ -96,6 +96,14 @@ export default {
   @import '../assets/scss/mixin';
   @import '../assets/scss/base';
   @import '../assets/scss/button';
+  .login-header{
+    height: 113px;
+    line-height: 113px;
+    .header-logo{
+      height: 100%;
+      width: auto;
+    }
+  }
   .banner{
     height: 576px;
     background: url("/imgs/login-bg.jpg") no-repeat 50%;
