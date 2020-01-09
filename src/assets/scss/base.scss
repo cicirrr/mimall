@@ -51,3 +51,18 @@
     transition: margin .3s;
   }
 }
+
+
+// 多选框
+.checkbox{
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  background-color: $colorA;
+  vertical-align: middle;
+  margin-right: 17px;
+  &.checked{
+    background: $colorA url("/imgs/icon-gou.png") no-repeat center;
+    background-size: 14px 14px;
+  }
+}
