@@ -20,7 +20,7 @@
       <div class="nav-header">
         <div class="container">
           <div class="header-logo">
-            <a href="#" class="logo"></a>
+            <a href="/#/index" class="logo"></a>
           </div>
           <div class="header-menu">
             <div class="item-menu">

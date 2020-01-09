@@ -54,11 +54,13 @@ export default {
     line-height: 68px;
     border-top: 1px solid rgba(229,229,229,1);
     background-color: #fff;
+    z-index: 10;
     &.fixed{
       position: fixed;
       left: 0;
       top: 0;
       width: 100%;
+      box-shadow: 0 3px 5px rgba(0,0,0,.3);
     }
     .container{
       display: flex;

@@ -42,10 +42,10 @@ axios.interceptors.response.use((response) => {
     if (path !== '#/index') {
       window.location.href = '/#/login';
     }
-  } else {
-    alert(res.msg);
-    Promise.reject();
+    return Promise.reject(); // 当状态为10，抛出异常
   }
+  alert(res.msg);
+  Promise.reject();
 });
 
 

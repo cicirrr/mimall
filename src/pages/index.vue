@@ -80,7 +80,7 @@
               <img v-lazy="item.mainImage" alt="">
               <h3 class="pro-name">{{item.name}}</h3>
               <p class="pro-info">{{item.subtitle}}</p>
-              <p class="pro-price" @click="addCart()">{{item.price}}元</p>
+              <p class="pro-price" @click="addCart(item.id)">{{item.price}}元</p>
             </div>
           </div>
         </div>
@@ -191,9 +191,14 @@ export default {
         this.productList = [res.list.slice(0, 4), res.list.slice(4, 8)];
       });
     },
-    addCart() {
+    addCart(id) {
       this.showModal = true;
-      // this.axios.post({}).then().catch()
+      this.axios.post('/carts', {
+        productId: id,
+        selected: true,
+      }).then((res = { cartProductVoList: 0 }) => {
+        this.$store.dispatch('saveCartCount', res.cartTotalQuantity);
+      });
     },
     gotoCart() {
       this.$router.push('/cart');
