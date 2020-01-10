@@ -16,6 +16,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
   name: 'OrderHeader',
   props: {
@@ -23,9 +25,11 @@ export default {
     note: String,
   },
   computed: {
-    username() {
-      return this.$store.state.username;
-    },
+    // username() {
+    //   return this.$store.state.username;
+    // },
+    // 使用ES6解构语法
+    ...mapState(['username']),
   },
 };
 </script>
