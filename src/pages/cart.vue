@@ -43,7 +43,7 @@
                   </div>
                 </div>
                 <div class="item-sum">{{item.productTotalPrice}}</div>
-                <div class="item-del" @click="deleteItem(item.productId)"></div>
+                <div class="item-del" @click="delModal(item.productId)"></div>
               </li>
             </ul>
           </div>
@@ -61,6 +61,15 @@
       </div>
       <service-bar></service-bar>
       <nav-footer></nav-footer>
+      <modal
+        :title="'确认'"
+        :btn-type="'3'"
+        :show-modal="showModal"
+        @submit="deleteItem"
+        @cancel="showModal = false"
+      >
+        <template v-slot:body>是否确认删除？</template>
+      </modal>
     </div>
 </template>
 
@@ -68,6 +77,7 @@
 import OrderHeader from '../components/OrderHeader.vue';
 import NavFooter from '../components/NavFooter.vue';
 import ServiceBar from '../components/ServiceBar.vue';
+import Modal from '../components/Modal.vue';
 
 export default {
   name: 'cart',
@@ -78,6 +88,8 @@ export default {
       totalQty: 0,
       checkedAll: false,
       selectedNum: 0,
+      showModal: false,
+      id: '',
     };
   },
   computed: {
@@ -98,6 +110,7 @@ export default {
     ServiceBar,
     OrderHeader,
     NavFooter,
+    Modal,
   },
   mounted() {
     this.getCartData();
@@ -148,11 +161,19 @@ export default {
         this.renderData(res);
       });
     },
+    delModal(id) {
+      this.showModal = true;
+      this.id = id;
+    },
     // 删除商品
-    deleteItem(id) {
+    deleteItem() {
+      const { id } = this;
       this.axios.delete(`/carts/${id}`).then((res) => {
         this.renderData(res);
-      }); // 删除弹框确认是否删除
+      });
+      this.id = '';
+      this.showModal = false;
+      // 删除弹框确认是否删除
     },
     // 跳转购物车
     order() {
