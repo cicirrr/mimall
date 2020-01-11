@@ -74,6 +74,8 @@
 </template>
 
 <script>
+// eslint-disable-next-line import/no-extraneous-dependencies
+// import { Message } from 'element-ui';
 import OrderHeader from '../components/OrderHeader.vue';
 import NavFooter from '../components/NavFooter.vue';
 import ServiceBar from '../components/ServiceBar.vue';
@@ -136,14 +138,20 @@ export default {
       let selected = item.productSelected;
       if (type === '-') {
         if (quantity === 1) {
-          alert('商品不能再减少咯');
+          // Message.warning('商品不能再减少咯');
+          this.$message.warning('商品不能再减少咯');
           return;
         }
         // eslint-disable-next-line no-plusplus
         --quantity;
       } else if (type === '+') {
-        // eslint-disable-next-line no-plusplus
-        ++quantity;
+        if (item.productStock > 1) {
+          // eslint-disable-next-line no-plusplus
+          ++quantity;
+        } else {
+          this.$message.warning('没库存啦');
+          return;
+        }
       } else {
         selected = !selected;
       }
@@ -173,6 +181,8 @@ export default {
       });
       this.id = '';
       this.showModal = false;
+      // Message.success('商品删除成功');
+      this.$message.success('商品删除成功');
       // 删除弹框确认是否删除
     },
     // 跳转购物车
@@ -180,7 +190,7 @@ export default {
       // every函数遍历，返回boolean
       const isChecked = this.list.every(item => !item.productSelected);
       if (isChecked) {
-        alert('购物车是空的哦~');
+        this.$message.warning('购物车是空的哦~');
         return;
       }
       this.$router.push('/order/confirm');
@@ -204,7 +214,7 @@ export default {
     // },
     // 公共方法
     renderData(res) {
-      this.list = res.cartProductVoList;
+      this.list = res.cartProductVoList || [];
       this.totalPrice = res.cartTotalPrice;
       this.totalQty = res.cartTotalQuantity;
       this.checkedAll = res.selectedAll;

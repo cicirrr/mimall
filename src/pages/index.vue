@@ -109,6 +109,8 @@ import Modal from '../components/Modal.vue';
 import 'swiper/dist/css/swiper.css';
 // eslint-disable-next-line import/no-extraneous-dependencies,import/order
 import { swiper, swiperSlide } from 'vue-awesome-swiper';
+// eslint-disable-next-line import/no-extraneous-dependencies,import/order
+import { Message } from 'element-ui';
 
 export default {
   name: 'index',
@@ -198,6 +200,7 @@ export default {
         selected: true,
       }).then((res = { cartProductVoList: 0 }) => {
         this.$store.dispatch('saveCartCount', res.cartTotalQuantity);
+        Message.success('商品添加成功');
       });
     },
     gotoCart() {

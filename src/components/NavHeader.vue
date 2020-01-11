@@ -11,6 +11,7 @@
           <div class="nav-top-info">
             <a href="javascript:;" class="top-user" @click="login" v-if="!username">登录</a>
             <a href="javascript:;" class="top-user" v-if="username">Hi~{{username}}</a>
+            <a href="javascript:;" class="top-user" v-if="username" @click="logout">退出</a>
             <a href="javascript:;" class="top-cart" @click="gotoCart">
               <span class="icon-cart"></span>购物车({{cartCount}})
             </a>
@@ -143,6 +144,20 @@ export default {
     gotoCart() {
       this.$router.push('/cart');
     },
+    // 退出登入
+    logout() {
+      this.axios.post('user/logout').then(() => {
+        this.$message.success('已成功退出登入');
+        // 清掉登录种入的cookie
+        this.$cookie.set('userId', { expires: -1 });
+        // 清掉登录保存的用户名及购物车数量
+        this.$store.dispatch('saveUsername', '');
+        this.$store.dispatch('saveCartCount', '0');
+      });
+    },
+    getCartCount() {
+      this.axios.get('/carts/products/sum').then((res = 0) => this.$store.dispatch('saveCartCount', res));
+    },
   },
   filters: {
     currency: val => `￥${val.toFixed(2)}元`,
@@ -152,6 +167,11 @@ export default {
   },
   mounted() {
     this.getPhoneList();
+    // this.getCartCount();
+    const { params } = this.$route;
+    if (params && params.from === 'login') {
+      this.getCartCount();
+    }
   },
 };
 </script>

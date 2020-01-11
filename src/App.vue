@@ -30,8 +30,11 @@ export default {
     // ...mapActions(['saveUsername', 'saveCartCount']),
   },
   mounted() {
-    this.getUser();
-    this.getCartCount();
+    const id = this.$cookie.get('userId');
+    if (id) {
+      this.getUser();
+      this.getCartCount();
+    }
   },
 };
 </script>

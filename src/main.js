@@ -7,6 +7,8 @@ import VueAxios from 'vue-axios';
 import VueLazyload from 'vue-lazyload';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import VueCookie from 'vue-cookie';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { Message } from 'element-ui';
 import App from './App.vue';
 import router from './router';
 import store from './store';
@@ -14,6 +16,8 @@ import store from './store';
 // eslint-disable-next-line import/extensions
 import './plugins/element.js';
 import './assets/scss/reset.scss';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import 'element-ui/lib/theme-chalk/index.css';
 // eslint-disable-next-line import/no-extraneous-dependencies
 
 // mock 开关
@@ -44,7 +48,8 @@ axios.interceptors.response.use((response) => {
     }
     return Promise.reject(); // 当状态为10，抛出异常
   }
-  alert(res.msg);
+  // alert(res.msg);
+  this.$message.error('请先登入');
   Promise.reject();
 });
 
@@ -54,6 +59,9 @@ Vue.use(VueLazyload, {
   loading: 'imgs/loading-svg/loading-bubbles.svg',
 });
 Vue.use(VueCookie);
+// Vue.use(Message); 还可以用下面的写法  第一种
+// Vue.component(Message); 第二种
+Vue.prototype.$message = Message;
 Vue.config.productionTip = false;
 
 new Vue({

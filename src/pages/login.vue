@@ -50,6 +50,8 @@
 
 <script>
 // import { mapActions } from 'vuex';  不要忘记加花括号
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { Message } from 'element-ui';
 
 export default {
   name: 'login',
@@ -68,10 +70,11 @@ export default {
         password,
         // eslint-disable-next-line no-return-assign
       }).then((res) => {
-        this.$cookie.set('userId', res.id, { expire: '1M' });
+        this.$cookie.set('userId', res.id, { expires: 'Session' });
         this.$store.dispatch('saveUsername', username);
         // this.saveUsername(username);
-        this.$router.push('/index', {
+        this.$router.push({
+          name: 'index',
           params: {
             from: 'login',
           },
@@ -86,6 +89,7 @@ export default {
         password,
         email: 'xxx@qq.com',
       }).then();
+      Message.success('注册成功');
     },
   },
 };
