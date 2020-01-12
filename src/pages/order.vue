@@ -1,7 +1,6 @@
 <template>
-    <div>
-      order
-      <order-header></order-header>
+    <div class="order-page">
+      <order-header :title="1"></order-header>
       <router-view></router-view>
       <nav-footer></nav-footer>
     </div>

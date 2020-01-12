@@ -66,3 +66,38 @@
     background-size: 14px 14px;
   }
 }
+
+// 订单主题内容背景色和上边距
+.order-bg{
+  background-color: $colorJ;
+  padding-top: 32px;
+}
+//  栅格
+.col-8{
+  flex: 8;
+}
+.col-2{
+  flex: 2;
+}
+.con-1{
+  flex: 1;
+}
+.col-10{
+  flex: 10;
+}
+.col-11{
+  flex: 11;
+}
+.flex{
+  display: flex;
+}
+
+// common-bottom
+.common-bottom{
+  border-bottom: 1px solid $colorH;
+}
+
+// 主题色
+.theme-color{
+  color: $colorA;
+}
