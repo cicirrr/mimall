@@ -242,29 +242,34 @@ export default {
         };
       }
       this.axios[method](url, params).then(() => {
+        this.closeModal();
         this.getList();
-        this.showDelModal = false;
-        this.showEditModal = false;
-        this.checkedItem = {};
-        this.userAction = '';
         this.$message.success('操作成功！');
       });
+    },
+    // 提取关闭Modal
+    closeModal() {
+      this.checkedItem = {};
+      this.userAction = '';
+      this.showDelModal = false;
+      this.showEditModal = false;
     },
     // 提交订单结算
     submitOrder() {
       const { checked, list } = this;
-      if (!list[checked]) {
+      const item = list[checked];
+      if (!item) {
         this.$message.warning('请选择收件地址');
         return;
       }
-      const shippingId = list[checked].userId;
+      const shippingId = item.id;
       this.axios.post('/orders', {
         shippingId,
       }).then((res) => {
         const { orderNo } = res;
         this.$router.push({
           path: '/order/pay',
-          query: orderNo,
+          query: { orderNo }, // query是一个对象
         });
       });
     },
