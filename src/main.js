@@ -27,6 +27,10 @@ if (mock) {
   require('./mock/api');
 }
 
+// Vue.use(Message); 还可以用下面的写法  第一种
+Vue.component(Message); // 第二种
+Vue.prototype.$message = Message;
+
 // 设置 axios基础值。根据前端跨域方式进行调整
 axios.defaults.baseURL = '/api';
 axios.defaults.timeout = 8000;
@@ -49,7 +53,12 @@ axios.interceptors.response.use((response) => {
     return Promise.reject(); // 当状态为10，抛出异常
   }
   // alert(res.msg);
-  this.$message.error('请先登入');
+  // this.$message.error('请先登入'); 不起作用
+  Message.error('请先登入');
+  Promise.reject();
+}, (error) => {
+  const res = error.response;
+  Message.error(res.data.message);
   Promise.reject();
 });
 
@@ -59,9 +68,6 @@ Vue.use(VueLazyload, {
   loading: 'imgs/loading-svg/loading-bubbles.svg',
 });
 Vue.use(VueCookie);
-// Vue.use(Message); 还可以用下面的写法  第一种
-// Vue.component(Message); 第二种
-Vue.prototype.$message = Message;
 Vue.config.productionTip = false;
 
 new Vue({
