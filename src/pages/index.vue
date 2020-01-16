@@ -165,7 +165,7 @@ export default {
           clickable: true,
         },
         autoplay: {
-          delay: 3000,
+          delay: 2000,
         },
         loop: true,
         effect: 'cube',
