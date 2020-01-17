@@ -2,13 +2,14 @@
     <div class="order-list-page order-bg">
       <div class="container">
         <div class="list-box">
+          <loading v-if="loading"></loading>
           <div class="list-item" v-for="(item,index) in orderList" :key="index">
             <div class="item-title">
               <div class="item-user">
-                  <span>{{item.createTime}}</span><em>|</em>
-                  <span>{{item.receiverName}}</span><em>|</em>
-                  <span>订单号：{{item.orderNo}}</span><em>|</em>
-                  <span>{{item.paymentTypeDesc}}</span>
+                <span>{{item.createTime}}</span><em>|</em>
+                <span>{{item.receiverName}}</span><em>|</em>
+                <span>订单号：{{item.orderNo}}</span><em>|</em>
+                <span>{{item.paymentTypeDesc}}</span>
               </div>
               <div class="item-amount">
                 应付金额：<b>{{item.payment | point}}</b>元
@@ -17,7 +18,7 @@
             <div class="item-content">
               <div class="order-box">
                 <div class="item-info" v-for="(cell,j) in item.orderItemVoList" :key="j">
-                  <img :src="cell.productImage" alt="">
+                  <img v-lazy="cell.productImage" alt="">
                   <div class="desc">
                     <p>{{cell.productName}}</p>
                     <p>{{cell.currentUnitPrice}}元 X {{cell.quantity}}</p>
@@ -25,22 +26,44 @@
                 </div>
               </div>
               <div class="item-link">
-                <a href="javascript:;" class="theme-color">立即付款   ></a>
+                <a href="javascript:;"
+                   class="theme-color"
+                   @click="goPay(item.orderNo)">{{item.statusDesc}}   ></a>
               </div>
             </div>
           </div>
+          <no-data v-if="!loading && orderList.length===0"></no-data>
+          <el-pagination
+            background
+            layout="prev, pager, next"
+            :total="1000"
+            v-if="!loading"
+          >
+          </el-pagination>
         </div>
       </div>
     </div>
 </template>
 
 <script>
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { Pagination } from 'element-ui';
+import Loading from '../components/Loading.vue';
+import NoData from '../components/NoData.vue';
+
 export default {
   name: 'orderList',
   data() {
     return {
       orderList: [], // 已提交的订单列表
+      orderNo: '',
+      loading: true,
     };
+  },
+  components: {
+    NoData,
+    Loading,
+    [Pagination.name]: Pagination,
   },
   mounted() {
     this.getOrderList();
@@ -48,8 +71,28 @@ export default {
   methods: {
     getOrderList() {
       this.axios.get('orders').then((res) => {
+        this.loading = false;
         this.orderList = res.list;
+      }).catch(() => {
+        this.loading = false;
+      }); // 防止报错，增加catch
+    },
+    // 进入支付界面
+    goPay(orderNo) {
+      // 法一 此处不适用
+      // this.$router.push('order/pay');
+      //  法二
+      this.$router.push({
+        path: '/order/pay',
+        query: {
+          orderNo,
+        },
       });
+      //  法三
+      // this.$router.push({
+      //   name: 'orderPay',
+      //   query: { orderNo },
+      // });
     },
   },
   filters: {
