@@ -36,8 +36,10 @@
           <el-pagination
             background
             layout="prev, pager, next"
-            :total="1000"
+            :total="total"
             v-if="!loading"
+            :pageSize="pageSize"
+            @current-change="handleChange"
           >
           </el-pagination>
         </div>
@@ -56,8 +58,11 @@ export default {
   data() {
     return {
       orderList: [], // 已提交的订单列表
-      orderNo: '',
-      loading: true,
+      orderNo: '', // 订单号
+      loading: true, // 过渡加载
+      pageSize: 5, // 每页加载数量
+      total: 0, // 总数
+      pageNum: 1, // 页码
     };
   },
   components: {
@@ -70,9 +75,15 @@ export default {
   },
   methods: {
     getOrderList() {
-      this.axios.get('orders').then((res) => {
+      this.axios.get('orders', {
+        params: {
+          pageNum: this.pageNum,
+          pageSize: this.pageSize,
+        },
+      }).then((res) => {
         this.loading = false;
         this.orderList = res.list;
+        this.total = res.total;
       }).catch(() => {
         this.loading = false;
       }); // 防止报错，增加catch
@@ -94,6 +105,11 @@ export default {
       //   query: { orderNo },
       // });
     },
+    // 分页器处理跳转页面
+    handleChange(pageNum) {
+      this.pageNum = pageNum;
+      this.getOrderList();
+    },
   },
   filters: {
     point: val => val.toFixed(2),
@@ -108,6 +124,9 @@ export default {
     padding-bottom: 70px;
     .container{
       .list-box{
+        .el-pagination{
+          text-align: right;
+        }
         .list-item{
           padding-bottom: 31px;
           .item-title{
