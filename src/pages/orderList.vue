@@ -34,14 +34,19 @@
           </div>
           <no-data v-if="!loading && orderList.length===0"></no-data>
           <el-pagination
+            v-if="false"
             background
             layout="prev, pager, next"
             :total="total"
-            v-if="!loading"
             :pageSize="pageSize"
             @current-change="handleChange"
           >
           </el-pagination>
+          <div class="load-more">
+          </div>
+          <el-button type="primary" :loading="loading" @click="handleLoading" :disabled="false">
+            加载中
+          </el-button>
         </div>
       </div>
     </div>
@@ -49,7 +54,7 @@
 
 <script>
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { Pagination } from 'element-ui';
+import { Pagination, Button } from 'element-ui';
 import Loading from '../components/Loading.vue';
 import NoData from '../components/NoData.vue';
 
@@ -60,7 +65,7 @@ export default {
       orderList: [], // 已提交的订单列表
       orderNo: '', // 订单号
       loading: true, // 过渡加载
-      pageSize: 5, // 每页加载数量
+      pageSize: 1, // 每页加载数量
       total: 0, // 总数
       pageNum: 1, // 页码
     };
@@ -69,12 +74,28 @@ export default {
     NoData,
     Loading,
     [Pagination.name]: Pagination,
+    [Button.name]: Button,
   },
   mounted() {
     this.getOrderList();
   },
   methods: {
     getOrderList() {
+      this.axios.get('orders', {
+        params: {
+          pageSize: this.pageSize,
+          pageNum: this.pageNum,
+        },
+      }).then((res) => {
+        this.loading = false;
+        this.orderList = res.list;
+        this.total = res.total;
+      }).catch(() => {
+        this.loading = false;
+      }); // 防止报错，增加catch
+    },
+    // 分页器加载
+    getPList() {
       this.axios.get('orders', { // 注意get传参方式
         params: {
           pageNum: this.pageNum,
@@ -87,6 +108,18 @@ export default {
       }).catch(() => {
         this.loading = false;
       }); // 防止报错，增加catch
+    },
+    // 按钮加载
+    getButtonList() {
+      this.axios.get('orders', {
+        params: {
+          pageNum: this.pageNum,
+          pageSize: this.pageSize, // 需要传入每页显示数量
+        },
+      }).then((res) => {
+        this.orderList = this.orderList.concat(res.list);
+        this.loading = false;
+      });
     },
     // 进入支付界面
     goPay(orderNo) {
@@ -108,7 +141,14 @@ export default {
     // 分页器处理跳转页面
     handleChange(pageNum) {
       this.pageNum = pageNum;
-      this.getOrderList();
+      this.getPList();
+    },
+    // 加载按钮，原长度添加项目
+    handleLoading() {
+      this.loading = true;
+      // eslint-disable-next-line no-plusplus
+      ++this.pageNum;
+      this.getButtonList();
     },
   },
   filters: {
@@ -167,6 +207,9 @@ export default {
               }
             }
           }
+        }
+        .load-more{
+          text-align: center;
         }
       }
     }
