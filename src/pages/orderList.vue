@@ -75,7 +75,7 @@ export default {
   },
   methods: {
     getOrderList() {
-      this.axios.get('orders', {
+      this.axios.get('orders', { // 注意get传参方式
         params: {
           pageNum: this.pageNum,
           pageSize: this.pageSize,
