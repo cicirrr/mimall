@@ -43,10 +43,21 @@
           >
           </el-pagination>
           <div class="load-more">
+            <el-button type="primary" :loading="loading"
+                       @click="handleLoading"
+                       :disabled="false"
+                       v-if="showButton"
+            >
+              加载中
+            </el-button>
           </div>
-          <el-button type="primary" :loading="loading" @click="handleLoading" :disabled="false">
-            加载中
-          </el-button>
+          <div v-infinite-scroll="loadMore"
+               infinite-scroll-disabled="busy"
+               infinite-scroll-distance="210"
+               class="scroll-load"
+          >
+            <img src="/imgs/loading-svg/loading-spinning-bubbles.svg" alt="" v-if="loading">
+          </div>
         </div>
       </div>
     </div>
@@ -55,6 +66,7 @@
 <script>
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Pagination, Button } from 'element-ui';
+import infiniteScroll from 'vue-infinite-scroll';
 import Loading from '../components/Loading.vue';
 import NoData from '../components/NoData.vue';
 
@@ -65,9 +77,11 @@ export default {
       orderList: [], // 已提交的订单列表
       orderNo: '', // 订单号
       loading: true, // 过渡加载
-      pageSize: 1, // 每页加载数量
+      pageSize: 5, // 每页加载数量
       total: 0, // 总数
       pageNum: 1, // 页码
+      busy: false, // 滚动加载是否触发
+      showButton: true,
     };
   },
   components: {
@@ -81,6 +95,7 @@ export default {
   },
   methods: {
     getOrderList() {
+      this.busy = false;
       this.axios.get('orders', {
         params: {
           pageSize: this.pageSize,
@@ -90,6 +105,7 @@ export default {
         this.loading = false;
         this.orderList = res.list;
         this.total = res.total;
+        this.busy = false;
       }).catch(() => {
         this.loading = false;
       }); // 防止报错，增加catch
@@ -111,6 +127,7 @@ export default {
     },
     // 按钮加载
     getButtonList() {
+      this.loading = true;
       this.axios.get('orders', {
         params: {
           pageNum: this.pageNum,
@@ -119,6 +136,28 @@ export default {
       }).then((res) => {
         this.orderList = this.orderList.concat(res.list);
         this.loading = false;
+        if (!res.hasNextPage) {
+          this.showButton = false;
+          this.busy = true;
+        }
+      });
+    },
+    // 滚动加载
+    getScrollList() {
+      this.loading = true;
+      this.axios.get('orders', {
+        params: {
+          pageSize: this.pageSize,
+          pageNum: this.pageNum,
+        },
+      }).then((res) => {
+        this.orderList = this.orderList.concat(res.list);
+        this.loading = false;
+        if (res.hasNextPage) {
+          this.busy = false;
+        } else {
+          this.busy = true;
+        }
       });
     },
     // 进入支付界面
@@ -150,7 +189,17 @@ export default {
       ++this.pageNum;
       this.getButtonList();
     },
+    // 滚动加载
+    loadMore() {
+      this.busy = true;
+      setTimeout(() => {
+        // eslint-disable-next-line no-plusplus
+        this.pageNum++;
+        this.getScrollList();
+      }, 500);
+    },
   },
+  directives: { infiniteScroll },
   filters: {
     point: val => val.toFixed(2),
   },
@@ -211,6 +260,8 @@ export default {
         .load-more{
           text-align: center;
         }
+        .scroll-load{}
+        text-align: center;
       }
     }
   }
