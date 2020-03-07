@@ -14,7 +14,7 @@ import router from './router';
 import store from './store';
 // import env from '../env';
 // eslint-disable-next-line import/extensions
-import './plugins/element.js';
+// import './plugins/element.js';
 import './assets/scss/reset.scss';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import 'element-ui/lib/theme-chalk/index.css';

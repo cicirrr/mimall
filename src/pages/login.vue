@@ -2,7 +2,7 @@
     <div class="login">
       <div clss="login-header">
         <div class="container">
-          <a href="/#/index"><img src="/imgs/login-logo.png" alt="" class="header-logo"></a>
+          <a href="/#/index"><img src="/imgs/login-logo.png" alt="" class="login-logo"></a>
         </div>
       </div>
       <div class="banner">
@@ -103,9 +103,9 @@ export default {
   .login-header{
     height: 113px;
     line-height: 113px;
-    .header-logo{
-      height: 100%;
-      width: auto;
+    .login-logo{
+      height: 26px;
+      width: 105px;
     }
   }
   .banner{

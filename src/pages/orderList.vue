@@ -42,7 +42,7 @@
             @current-change="handleChange"
           >
           </el-pagination>
-          <div class="load-more">
+          <!-- <div class="load-more">
             <el-button type="primary" :loading="loading"
                        @click="handleLoading"
                        :disabled="false"
@@ -50,7 +50,7 @@
             >
               加载中
             </el-button>
-          </div>
+          </div> -->
           <div v-infinite-scroll="loadMore"
                infinite-scroll-disabled="busy"
                infinite-scroll-distance="210"
